@@ -10,61 +10,110 @@
 
 
 #include "Deposito.h"
+#include <vector>
+#include <queue>
+#include "Produto.h"
 
 using namespace std;
 
 
 class DFrescos: public Deposito
 {
-private:
-
-//    int npaletes;
-//    int maxcap;
-//    float totarea;
-
-//   stack <Produtos* > paletes;
-
-
-    // stack <int> Palete;
-
-
 public:
-    DFrescos(string k, int np, int mc, float ta);
-    DFrescos(const DFrescos &df);
+	DFrescos();
+	DFrescos(const DFrescos & orig);
+	DFrescos(int numPaletes, int capacidadeMax);
+	~DFrescos();
+	bool armazenar(const Produto & prod);
+	void escrever();
+	int getMaxQuantity(int posi);
+	int getFirstAvailable();
 
-    virtual DFrescos *clone() const;
-    virtual ~DFrescos();
-
-    virtual void escreve(ostream& out) const;
-
+private:
+	vector<queue<Produto> > vec;
 
 };
 
-DFrescos:: DFrescos(string k, int np, int mc, float ta): Deposito(k,np, mc, ta)
-{
+
+DFrescos::DFrescos() :Deposito(){
+	vec.reserve(numPaletes);
+	for (int i = 0; i < numPaletes; i++){
+		queue<Produto> palete;
+		vec.push_back(palete);
+	}
+
+
+}
+
+DFrescos::DFrescos(int numPaletes, int capacidadeMax) :Deposito(numPaletes,capacidadeMax){
+	vec.reserve(numPaletes);
+	for (int i = 0; i < numPaletes; i++){
+		queue<Produto> palete;
+		vec.push_back(palete);
+	}
+
+}
+
+
+DFrescos::DFrescos(const DFrescos & orig) : Deposito(orig){
+	vec = orig.vec;
+
 
 
 
 }
 
-DFrescos:: DFrescos(const DFrescos &df) : Deposito (df.getKey(), df.getNpaletes(),df.getMaxcap(),df.getTotarea())
-{
+
+DFrescos::~DFrescos(){
+	vec.clear();
+}
+
+bool DFrescos::armazenar(const Produto & prod){
+	int indicePalete = getFirstAvailable();
+	if (indicePalete == -1) return false;
+
+	vec[indicePalete].push(prod);
+
+
+	return true;
+}
+
+void DFrescos::escrever(){
+
+	for (int i = 0; i < numPaletes; i++){
+		queue<Produto> palete = vec[i];
+		int quantidadeExistente = palete.size();
+		int quantidadeMaxima = getMaxQuantity(i);
+		cout << "Palete " << i << " tem " << quantidadeExistente << " de " << quantidadeMaxima << " elementos" << endl;
+
+	}
 
 }
 
-DFrescos::~DFrescos()
-{
+/*retorna o indice da palete ou -1 se nao encontrar nada*/
+int DFrescos::getFirstAvailable(){
+	for (int i = 0; i < numPaletes; i++){
+		queue<Produto> palete = vec[i];
+		int quantidadeExistente = palete.size();
+		int quantidadeMaxima = getMaxQuantity(i);
+		if (quantidadeExistente < quantidadeMaxima){
+			return i;
+		}
+
+	}
+
+	return -1;
 
 }
 
-DFrescos* DFrescos::clone() const
-{
-    return new DFrescos(*this); 
+
+int DeFrescos::getMaxQuantity(int posi) {
+	return posi % 2 == 0 ?
+		getCapacidadeMax() :
+		getCapacidadeMax() / 2;
 }
 
-void DFrescos::escreve(ostream& out) const {
-    out << "\nDeposito de Frescos: \n";
-    Deposito::escreve(out);
-}
+
+
 #endif	/* _DFRESCOS_H */
 
