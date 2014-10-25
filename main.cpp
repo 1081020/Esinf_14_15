@@ -21,33 +21,54 @@ int main(int argc, const char * argv[])
 //    Deposito d1("123456",3,3,3);
 //    Deposito d2("78901",3,4,3);
 
-    DFrescos d1("123456",3,3,3);
-    DFrescos d2("8888",5,6,7);
+  //  DFrescos d1("123456",3,3,3);
+  //  DFrescos d2("8888",5,6,7);
 
 
-    DNormais<char> d3("33434",2,3,4);
+   // DNormais<char> d3("33434",2,3,4);
 
-
-    arm1.insDepo(d1);
-    arm1.insDepo(d2);
-    arm1.insDepo(d3);
-
-//    d3.empilha('a');
-//
-//    cout << d3;
+/*
+	DepositoFresco depo;
 
 
 
-//    if (d1 == d2)
-//    {
-//        cout << "Iguais \n";
-//    }
-//    else
-//        cout << "Não Existe \n";
-//
+	for (int i = 0; i < 15; i++){
+		cout << "--------------- Produto "<<i<<" ------------------------" << endl;
+		Carne c;
+		if (!depo.armazenar(c)){
+			cout << "PASSOU O LIMITE MAXIMO DE PRODUTOS!" <<endl;
+		} else
+			depo.escrever();
 
 
-    cout << arm1;
+	}*/
+	/*
+
+	DepositoNormal depo;
+
+
+
+	for (int i = 0; i < 30; i++){
+		cout << "--------------- Produto " << i << " ------------------------" << endl;
+		Carne c;
+		if (!depo.armazenar(c)){
+			cout << "PASSOU O LIMITE MAXIMO DE PRODUTOS!" << endl;
+		}
+		else
+			depo.escrever();
+
+
+	}
+	*/
+	Armazem amar;
+
+	amar.lerFicheiro();
+
+
+
+	cin.get();
+	return 0;
+
 
 
    // return EXIT_SUCCESS;

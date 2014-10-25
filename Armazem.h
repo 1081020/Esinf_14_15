@@ -63,7 +63,7 @@ Armazem::Armazem(int numDepositosFrescos, int numPaletesFrescos, int capacidadeM
 		posicao++;
 	}
 	for (int j = 0; j < numDepositosNormais; j++){
-		DNormal* depoNorm = new DNormal(numPaletesNormais, capacidadeMaxNormais);
+		DNormais* depoNorm = new DNormais(numPaletesNormais, capacidadeMaxNormais);
 		mapa[posicao] = depoNorm;
 		posicao++;
 	}
