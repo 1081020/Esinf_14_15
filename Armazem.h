@@ -42,6 +42,56 @@ class Armazem
 };
 
 
+Armazem::Armazem(){
+	this->posicao = 0;
+	DNormal * depoNorm = new DNormal();
+
+	DFrescos * depoFresco = new DFrescos();
+	mapa[posicao] = depoNorm;
+	posicao++;
+	mapa[posicao] = depoFresco;
+	posicao++;
+
+}
+
+
+Armazem::Armazem(int numDepositosFrescos, int numPaletesFrescos, int capacidadeMaxFrecos, int numDepositosNormais, int numPaletesNormais, int capacidadeMaxNormais){
+	this->posicao = 0;
+	for (int i = 0; i < numDepositosFrescos; i++){
+		DFrescos* depoFresco = new DFrescos(numPaletesFrescos, capacidadeMaxFrecos);
+		mapa[posicao] = depoFresco;
+		posicao++;
+	}
+	for (int j = 0; j < numDepositosNormais; j++){
+		DNormal* depoNorm = new DNormal(numPaletesNormais, capacidadeMaxNormais);
+		mapa[posicao] = depoNorm;
+		posicao++;
+	}
+}
+
+
+
+Armazem::~Armazem(){
+	mapa.clear();
+}
+/*
+void Armazem::adicionarDeposito(const Deposito & deposito){
+	mapa[posicao] = deposito;
+	posicao++;
+
+}
+*/
+
+void Armazem::lerFicheiro(){
+
+	for (int i = 0 ; i < mapa.size(); i++)
+	{
+
+		(*mapa[i]).escrever();
+	}
+
+}
+
 
 #endif	/* _ARMAZEM_H */
 
