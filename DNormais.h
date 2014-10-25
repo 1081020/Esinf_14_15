@@ -8,11 +8,15 @@
 #ifndef _DNORMAIS_H
 #define	_DNORMAIS_H
 
-
+#include "Deposito.h"
 #include <list>
+#include <stack>
 #include <vector>
+#include "Produto.h"
+
+
 #include <deque>
-#include <Stack>
+
 #include <string>
 #include <iostream>
 
@@ -28,119 +32,104 @@ private:
 
     vector < stack <T > > palete;
 
-
-
 public:
-    DNormais(string k, int np, int mc, float ta);
-    DNormais(const DNormais &dn);
+	DNormais();
+	DNormais(const DNormais & orig);
+	DNormais(int numPaletes, int capacidadeMax);
+	~DNormais();
+	bool armazenar(const Produto & prod);
+	void escrever();
+	int getFirstAvailable();
 
-    virtual DNormais *clone() const;
-    virtual ~DNormais();
-
-    void empilha(T);
-    void desempilhar();
-   // Listar(Deposito<T> & w);
-
-    virtual void escreve(ostream& out) const;
-
-
-
-
-    vector < stack <T> > getVet()
-    {
-        return palete;
-    }
-
+private:
+	list<stack<Produto> > lista;
 };
 
 
-template<class T>
-DNormais<T>:: DNormais(string k, int np, int mc, float ta): Deposito(k,np,mc,ta)
-{
-    ppares = mc;
-    pimpares = mc/2;
+DNormais::DNormais() :Deposito(){
+	for (int i = 0; i < numPaletes; i++){
+		stack<Produto> palete;
+		lista.push_back(palete);
 
-}
-
-template<class T>
-DNormais<T>:: DNormais(const DNormais &dn) : Deposito (dn.getKey(), dn.getNpaletes(),dn.getMaxcap(),dn.getTotarea())
-{
-
-}
-
-template<class T>
-DNormais<T>::~DNormais()
-{
-
-}
-
-template<class T>
-DNormais<T>* DNormais<T>::clone() const
-{
-    return new DNormais(*this);
-}
-
-
-
-
-
-template<class T>
-void DNormais<T>::empilha(T value){
-    int tam = palete.size();
-    if(tam==0){
-        stack<T> st;
-        palete.push_back(st);
-
-    }else{
-        if(palete[tam-1].size()>=5){
-            stack<T> st;
-            palete.push_back(st);
-        }
-    }
-
-    palete[palete.size()-1].push(value);
-}
-
-
-template<class T>
-void DNormais<T>::desempilhar()
-{
-    int tam = palete.size();
-    if(tam<=0)
-        return;
-
-    palete[tam-1].pop();
-    if(palete[tam-1].size()==0)
-        palete.pop_back();
-}
-
-/*
-template<class T>
-void DNormais<T>::Listar(Deposito<T> & w){
-    cout<<"\n\n------------------------------";
-    vector<stack<T>> vector=w.getVet();
-    for (int i = 0; i < vector.size; i++) {
-        cout<<"\n["<<i<<"]";
-        stack<T> s(vector[i]);
-        while(!s.empty()){
-            cout<<s.top()<<",";
-            s.pop();
-        }
-
-    }
-    //return out;
-
-}
-*/
-
-template<class T>
-void DNormais<T>::escreve(ostream& out) const {
-    out << "\nDeposito de Normais: \n";
-    Deposito::escreve(out);
-        //return out;
+	}
 
 
 }
+
+
+DNormais::DNormais(const DNormais & orig) : Deposito(orig){
+	lista = orig.lista;
+
+
+
+
+}
+DNormais::DNormais(int numPaletes, int capacidadeMax) :Deposito(numPaletes, capacidadeMax){
+	for (int i = 0; i < numPaletes; i++){
+		stack<Produto > palete;
+		lista.push_back(palete);
+
+	}
+
+}
+
+
+DNormais::~DNormais(){
+	lista.clear();
+}
+
+bool DNormais::armazenar(const Produto & prod){
+	list<stack<Produto> >::iterator it = lista.begin();
+
+	if (getFirstAvailable() != -1){
+		advance(it, getFirstAvailable());
+
+		(*it).push(prod);
+
+		return true;
+
+
+
+	}
+	return false;
+
+
+
+}
+
+void DNormais::escrever(){
+	int i = 0;
+	for (list<stack<Produto> >::iterator it = lista.begin(); it != lista.end(); it++){
+
+		stack<Produto> palete = *it;
+		int quantidadeExistente = palete.size();
+		cout << "Palete " << i << " tem " << quantidadeExistente << " de " << capacidadeMax << " elementos" << endl;
+		i++;
+
+	}
+
+}
+
+int DNormais::getFirstAvailable(){
+	int i = 0;
+
+	for (list<stack<Produto> >::iterator it = lista.begin(); it != lista.end(); it++){
+
+		stack<Produto> palete = *it;
+		int quantidadeExistente = palete.size();
+
+		if (quantidadeExistente < capacidadeMax){
+
+			return i;
+		}
+
+		i++;
+	}
+
+	return -1;
+
+}
+
 
 #endif	/* _DNORMAIS_H */
 

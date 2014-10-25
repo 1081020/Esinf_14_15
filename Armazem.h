@@ -44,7 +44,7 @@ class Armazem
 
 Armazem::Armazem(){
 	this->posicao = 0;
-	DNormal * depoNorm = new DNormal();
+	DNormais * depoNorm = new DNormais();
 
 	DFrescos * depoFresco = new DFrescos();
 	mapa[posicao] = depoNorm;
