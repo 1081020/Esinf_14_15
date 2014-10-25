@@ -27,8 +27,8 @@ int main(int argc, const char * argv[])
 
    // DNormais<char> d3("33434",2,3,4);
 
-/*
-	DepositoFresco depo;
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	DFrescos depo;
 
 
 
@@ -41,7 +41,7 @@ int main(int argc, const char * argv[])
 			depo.escrever();
 
 
-	}*/
+	}
 	/*
 
 	DepositoNormal depo;
