@@ -107,7 +107,7 @@ int DFrescos::getFirstAvailable(){
 }
 
 
-int DeFrescos::getMaxQuantity(int posi) {
+int DFrescos::getMaxQuantity(int posi) {
 	return posi % 2 == 0 ?
 		getCapacidadeMax() :
 		getCapacidadeMax() / 2;
